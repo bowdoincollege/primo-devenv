@@ -7,25 +7,25 @@ Anyone who just needs the package.zip file to upload into the view customization
 If you want to see our custom HTML, CSS, and JS, you can browse those files under /primo-explore/custom. 
 
 ### Additional notes about installation/running on an M1 Mac in 2023:
-var PROXY_SERVER = 'https://bowdoin.primo.exlibrisgroup.com:443'; in config
-(uninstall node if you've mistakenly tried installing it for this)
-install homebrew // may require sudo
-`brew install python`
-install python 2 from package // might be able to skip?
-`brew install nodebrew`
-`mkdir ~/.nodebrew/`
-`mkdir ~/.nodebrew/src/`
-`nodebrew install-binary v16.17.0`
-export path to .zshrc
-`nodebrew use v16.17.0`
-`node -v` // should return v16.17.0
-`brew install pkg-config cairo pango libpng jpeg giflib librsvg` // prevents canvas error
+* var PROXY_SERVER = 'https://bowdoin.primo.exlibrisgroup.com:443'; in config
+* (uninstall node if you've mistakenly tried installing it for this, the version must be exact)
+* install homebrew // may require sudo
+* `brew install python`
+* install python 2 from package // might be able to skip?
+* `brew install nodebrew`
+* `mkdir ~/.nodebrew/`
+* `mkdir ~/.nodebrew/src/`
+* `nodebrew install-binary v16.17.0`
+* export path to .zshrc
+* `nodebrew use v16.17.0`
+* `node -v` // should return v16.17.0
+* `brew install pkg-config cairo pango libpng jpeg giflib librsvg` // prevents canvas error
 
 To view locally:
-`gulp run --view 01CBB_BOWC-BOWDOIN` // do not add the -ve tag
-open http://localhost:8003/discovery/search?vid=01CBB_BOWC:BOWDOIN in private browser
+* `gulp run --view 01CBB_BOWC-BOWDOIN` // do not add the -ve tag
+* open http://localhost:8003/discovery/search?vid=01CBB_BOWC:BOWDOIN in private browser
 
-If `gulp create-package` won't work (say you haven't installed this whole monster on your machine), you can grab the appropriate named folder under /primo-explore/custom and zip it like so (from its parent folder):
+If `gulp create-package` won't work (say you haven't installed this whole monster on your machine), you can grab the appropriate named folder under /primo-explore/custom and zip it like so in Terminal (from its parent folder):
 `zip -r -X "package.zip" 01CBB_BOWC-BOWDOIN`
 
 ## Structure
