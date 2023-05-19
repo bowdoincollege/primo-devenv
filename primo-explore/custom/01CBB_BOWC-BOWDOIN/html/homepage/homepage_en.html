@@ -1,0 +1,96 @@
+
+<md-content layout-xs="column" layout="row">
+    <div flex="60" layout="column">
+        <md-card class="default-card">
+            <md-card-title>
+                <md-card-title-text>
+                        <span class="md-headline">What Am I Searching? </span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>After entering a search term(s),  select the scope of your search in the drop-down list:
+                </p>
+
+                <dl>
+                <dt><strong>Almost everything</strong></dt>
+                <dd>Broadest possible search; articles, books, ebooks, sound recordings, film, and more in Colby, Bates, and Bowdoin (CBB) Libraries. Newspapers not included by default.
+                </dd>
+                
+                <dt><strong>CBB Libraries</strong></dt>
+                <dd>Books, ebooks, sound recordings, film, and more in CBB Libraries.</dd>
+
+                <dt><strong>Articles and more</strong></dt>
+                <dd>Articles, chapters of books and ebooks, reviews, and full text in Bowdoin databases. To add newspapers, do a search, then select “Newspaper search” on left side of your results page. </dd>
+                
+                <dt><strong>Course Reserves</strong></dt>
+                <dd>Course materials by course name, number, instructor, or title.</dd>
+                
+                <dt><strong>Special Collections &amp; Archives</strong></dt>
+                <dd>Rare books, artists' books, archives, manuscripts, and other materials in Special Collections &amp; Archives.</dd>
+                </dl>
+            </md-card-content>
+        </md-card>
+
+    </div>
+    <div flex-xs flex="40" layout="column">
+
+        <md-card class="default-card">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Need help?</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>
+                    <a href="https://bowdoin.libanswers.com/">Ask Us</a>
+                </p>
+                <p>
+                    <a href="https://library.bowdoin.edu/research/appointment.shtml">Contact a Research Librarian</a>
+                </p>
+                <p>
+                    <a href="https://bowdoin.libanswers.com/technical-support/">Report Technical Problems</a>
+                </p>
+
+            </md-card-content>
+        </md-card>
+
+
+        <md-card class="default-card">
+            <md-card-content>
+                <p>
+                    <prm-authentication [is-logged-in]="$ctrl.userName().length > 0" [idp-logout]="$ctrl.idpLogout" flex="none" class="flex-none">
+                        <button class="zero-margin md-button md-primoExplore-theme md-ink-ripple" type="button" ng-transclude="" ng-if="!$ctrl.isLoggedInIDP()" ng-click="$ctrl.handleLogin();" aria-label="Sign in">
+                        <path d="M10,17.25V14H3V10H10V6.75L15.25,12L10,17.25M8,2H17A2,2 0 0,1 19,4V20A2,2 0 0,1 17,22H8A2,2 0 0,1 6,20V16H8V20H17V4H8V8H6V4A2,2 0 0,1 8,2Z"></path>
+                    <span translate="eshelf.signin.title">Sign in</span><div class="md-ripple-container" style=""></div></button><!----><!----><prm-authentication-after parent-ctrl="$ctrl"></prm-authentication-after></prm-authentication> to:
+                    <ul>
+                        <li>View full search results (some databases will only show results if you are signed in)</li>
+                        <li>Request Colby, Bowdoin, and Bates (CBB) materials</li>
+                        <li>View current loans and requests</li>
+                        <li>Renew materials</li>
+                        <li>Save search results in My Favorites</li>
+                        <li>Save searches for future use and to create feeds</li>
+                    </ul>
+                </p>
+
+            </md-card-content>
+        </md-card>
+
+
+            <md-card class="default-card">
+                <md-card-title style="padding-bottom: 0px;">
+                    <md-card-title-text>
+                        <span class="md-headline">More Resources</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content>
+                        <p><a href="http://library.bowdoin.edu/erl/ip/worldcat.cgi">WorldCat</a></p>
+                        <p><a href="https://mainecat.maine.edu/">MaineCat</a></p>
+                        <p><a href="https://bowdoin.libguides.com/az.php">Find Databases</a></p>
+                        <p><a href="https://bowdoin.primo.exlibrisgroup.com/discovery/npsearch?vid=01CBB_BOWC%3ABOWDOIN">Journals & Newspapers by Title</a></p>
+                        <p><a href="https://bowdoin.libguides.com/">Course and Subject Guides</a></p>
+                        
+    
+                </md-card-content>
+            </md-card>
+    </div>
+</md-content>

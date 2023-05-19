@@ -1,0 +1,165 @@
+body {
+	background-color:#FFF;
+}
+
+/* the cards! */
+md-card.default-card {
+	background-color: #F3F3F3;
+	border: 1px solid #ccc;
+}
+
+/* remove the padding from around the logo */
+prm-logo .product-logo, prm-logo img {
+  text-decoration: none; /* nobody asked me for this but it bugs me */
+  padding: 0em;}
+
+/* make the icons in the top bar ... visible! */
+prm-icon md-icon, prm-icon md-icon.md-primoExplore-theme {
+    color: #000 !important;
+}
+prm-topbar .md-button:not(.close-btn-favorits-warning-message):not(.md-icon-button) {
+    border-radius: 0;
+    color: #000 !important;
+}
+
+/* advanced and simple search buttons */
+body > primo-explore > div > prm-explore-main > div > prm-topbar > div.top-nav-bar {
+	background-color: #ffffff;
+	color: #000000;
+}
+body > primo-explore > div > prm-explore-main > div > prm-topbar > div.top-nav-bar > prm-main-menu > div >  div#mainMenu > div:hover {
+	background-color: #f3f3f3 !important;
+}
+div.search-switch-buttons.hide-xs.layout-sm-column.layout-align-sm-start-stretch.facet-to-left-advanced-search > button.switch-to-simple.zero-margin.button-with-icon.md-button.md-primoExplore-theme.md-ink-ripple:hover {
+	background-color:white;
+	color: #53738C;
+}
+/* "Advanced Search" button */
+body > primo-explore > div > prm-explore-main > div > prm-search-bar > div.layout-fill.layout-column > div > div.search-switch-buttons.hide-xs.layout-sm-column.layout-align-sm-start-stretch.facet-to-left-advanced-search > button{
+	color: #FFFFFF;
+  }
+body > primo-explore > div > prm-explore-main > div > prm-search-bar > div.layout-fill.layout-column > div > div.search-switch-buttons.hide-xs.layout-sm-column.layout-align-sm-start-stretch.facet-to-left-advanced-search > button:hover {
+	  color: #000;
+  }
+
+/* make search bar backgrounds blue */
+body > primo-explore > div > prm-explore-main > div > prm-search-bar {
+	background-color: #53738C;
+	color: #FFFFFF;
+}
+prm-search-bar .advanced-search-backdrop {
+	background-color: #53738C;
+	color: #FFFFFF;
+}
+
+/* links and other blue things - code could stand some cleaning, I bet */
+.md-button.md-primary {
+    color: #53738C; }
+    .md-button.md-primary:hover:not([disabled]), .md-button.md-primary:focus:not([disabled]), .md-button.md-primary.hovered:not([disabled]), .md-button.md-primary.md-focused:not([disabled]), .md-button.md-primary._md-focused:not([disabled]) {
+      color: white;
+      background-color: #53738C; }
+.md-button.button-link, md-grid-tile .tile-content > .md-button,
+.tiles-grid-tile .tile-content > .md-button {
+color: #53738C;
+box-shadow: none; }
+.md-button.button-link:hover:not([disabled]), md-grid-tile .tile-content > .md-button:hover:not([disabled]),
+.tiles-grid-tile .tile-content > .md-button:hover:not([disabled]), .md-button.button-link:focus:not([disabled]), md-grid-tile .tile-content > .md-button:focus:not([disabled]),
+.tiles-grid-tile .tile-content > .md-button:focus:not([disabled]), .md-button.button-link.hovered:not([disabled]), md-grid-tile .tile-content > .md-button.hovered:not([disabled]),
+.tiles-grid-tile .tile-content > .md-button.hovered:not([disabled]), .md-button.button-link.md-focused:not([disabled]), md-grid-tile .tile-content > .md-button.md-focused:not([disabled]),
+.tiles-grid-tile .tile-content > .md-button.md-focused:not([disabled]), .md-button.button-link._md-focused:not([disabled]), md-grid-tile .tile-content > .md-button._md-focused:not([disabled]),
+.tiles-grid-tile .tile-content > .md-button._md-focused:not([disabled]) {
+	color: white;
+	background-color: #53738C; }
+	.md-button.button-as-link-mobile {
+		text-transform: none;
+		font-size: 1em;
+		min-width: 0;
+		padding: 0;
+		line-height: 1em;
+		min-height: 0;
+		overflow: visible;
+		-ms-flex: 0 0 auto;
+		flex: 0 0 auto;
+		letter-spacing: 0;
+		color: #53738C; }
+.md-button.button-as-link-mobile:hover:not([disabled]), .md-button.button-as-link-mobile:focus:not([disabled]), .md-button.button-as-link-mobile.hovered:not([disabled]), .md-button.button-as-link-mobile.md-focused:not([disabled]), .md-button.button-as-link-mobile._md-focused:not([disabled]) {
+		  color: white;
+		  background-color: #53738C; }
+.prm-links-bg {
+			color: #53738C; }
+			.prm-links-bg:hover:not([disabled]), .prm-links-bg:focus:not([disabled]), .prm-links-bg.hovered:not([disabled]), .prm-links-bg.md-focused:not([disabled]), .prm-links-bg._md-focused:not([disabled]) {
+			  color: white;
+			  background-color: #53738C; }
+.prm-links-important, .text-link {
+				color: #53738C !important; }
+.tiles-grid-tile .tile-header .md-button, md-input-container.has-fixed-message [ng-message] a, .separate-list-items md-list-item .item-loader-with-text .md-button, md-list-item.list-item-as-link {
+					color: #53738C; }
+
+
+/* a lot of work put into making Advanced Search look right, and maybe this code could be cleaned up over time */
+md-input-container:after {
+	background-color: #53738C;
+}
+/*
+md-input-container:after {
+	  position: absolute;
+	  bottom: -1px;
+	  content: "";
+	  height: 1px !important;
+	  left: 25%;
+	  width: 0;
+	  opacity: 1;
+}*/
+
+.md-button.button-confirm, .prm-hue1.esploro_status\.not_restricted, .prm-hue1.ext_not_restricted, .prm-hue1.fulltext, .prm-hue1.fulltext_linktorsrc, .prm-hue1.fulltext_linktorsrc_newspaper, .prm-hue1.fulltext_linktorsrc_topic, .prm-hue1.fulltext_multiple, .prm-hue1.fulltext_newspaper, .prm-hue1.fulltext_topic, .prm-hue1.not_restricted, .prm-hue1.status-available, .prm-hue1[class*=available], .prm-hue1[class*=FT], .prm-positive.prm-hue1, .service-form-static-panel button.button-confirm prm-icon+span, .service-form-static-panel button.button-confirm prm-icon svg path {
+    color: #53738C;
+}
+
+.md-button.button-confirm._md-focused:not([disabled]), .md-button.button-confirm.hovered:not([disabled]), .md-button.button-confirm.md-focused:not([disabled]), .md-button.button-confirm:focus:not([disabled]), .md-button.button-confirm:hover:not([disabled]), .service-form-static-panel button.button-confirm prm-icon+span._md-focused:not([disabled]), .service-form-static-panel button.button-confirm prm-icon+span.hovered:not([disabled]), .service-form-static-panel button.button-confirm prm-icon+span.md-focused:not([disabled]), .service-form-static-panel button.button-confirm prm-icon+span:focus:not([disabled]), .service-form-static-panel button.button-confirm prm-icon+span:hover:not([disabled]), .service-form-static-panel button.button-confirm prm-icon svg path._md-focused:not([disabled]), .service-form-static-panel button.button-confirm prm-icon svg path.hovered:not([disabled]), .service-form-static-panel button.button-confirm prm-icon svg path.md-focused:not([disabled]), .service-form-static-panel button.button-confirm prm-icon svg path:focus:not([disabled]), .service-form-static-panel button.button-confirm prm-icon svg path:hover:not([disabled]) {
+    color: #fff;
+    background-color: #53738C;
+}
+
+prm-advanced-search#advanced-search, md-tab-content { 
+	color: black;
+}
+
+md-input-container:after {
+	background-color: #53738C;
+}
+
+md-input-container:after {
+	  position: absolute;
+	  bottom: -1px;
+	  content: "";
+	  height: 1px !important;
+	  left: 25%;
+	  width: 0;
+	  opacity: 1;
+  }
+
+.prm-primary-color.prm-hue1, .request-form md-input-container label.prm-hue1, .request-form md-input-container label.prm-hue1:not(.md-no-float):not(._md-container-ignore), .request-form md-input-container md-select .prm-hue1.md-select-value.md-select-placeholder, .request-form md-input-container .md-input-container-dummy > .md-select-dummy .prm-hue1.md-select-value.md-select-placeholder, .request-form md-input-container md-select .prm-hue1._md-select-value._md-select-placeholder, .request-form md-input-container .md-input-container-dummy > .md-select-dummy .prm-hue1._md-select-value._md-select-placeholder, .result-item-actions .prm-hue1.more-options-button, prm-add-query-to-saved-searches .prm-hue1.custom-button, prm-pre-filters md-input-container.prm-hue1.is-active, .md-autocomplete-suggestions .prm-hue1.suggestion-scope, md-tabs md-tabs-wrapper md-tabs-canvas md-pagination-wrapper md-tab-item.md-active:not([disabled]), md-tabs md-tabs-wrapper md-tabs-canvas md-pagination-wrapper md-tab-item.md-focused:not([disabled]), md-tab-content .tab-content-header md-input-container md-select-value .prm-hue1.md-text, prm-resource-type-filter-bar md-input-container.prm-hue1.is-active {
+	  color: black;
+  }
+  
+.prm-primary-bg, prm-atoz-search-bar, prm-browse-search-bar, prm-collection-gallery-header .collection-header-inner, prm-newspapers-search-bar, prm-search-bar, prm-spinner.overlay-cover.light-on-dark:after, prm-tags-search-bar, prm-tree-nav prm-spinner .diamond {
+		  color: #53738C !important;
+  }
+
+  /* probably a variety of things, but most noticeably the magnifying glass in the search bar */
+.md-button.button-confirm, .service-form-static-panel button.button-confirm prm-icon + span, .service-form-static-panel button.button-confirm prm-icon svg path {
+	color: #466176; }
+.md-button.button-confirm:hover:not([disabled]), .service-form-static-panel button.button-confirm prm-icon + span:hover:not([disabled]), .service-form-static-panel button.button-confirm prm-icon svg path:hover:not([disabled]), .md-button.button-confirm:focus:not([disabled]), .service-form-static-panel button.button-confirm prm-icon + span:focus:not([disabled]), .service-form-static-panel button.button-confirm prm-icon svg path:focus:not([disabled]), .md-button.button-confirm.hovered:not([disabled]), .service-form-static-panel button.button-confirm prm-icon + span.hovered:not([disabled]), .service-form-static-panel button.button-confirm prm-icon svg path.hovered:not([disabled]), .md-button.button-confirm.md-focused:not([disabled]), .service-form-static-panel button.button-confirm prm-icon + span.md-focused:not([disabled]), .service-form-static-panel button.button-confirm prm-icon svg path.md-focused:not([disabled]), .md-button.button-confirm._md-focused:not([disabled]), .service-form-static-panel button.button-confirm prm-icon + span._md-focused:not([disabled]), .service-form-static-panel button.button-confirm prm-icon svg path._md-focused:not([disabled]) {
+	  color: white;
+	  background-color: #466176; }
+.prm-positive-bg, .multiselect-submit .multiselect-submit-inner .md-button.md-primary {
+		background-color: #466176; }
+.prm-positive-bg, .multiselect-submit .multiselect-submit-inner .md-button.md-primary {
+		  background-color: #466176; 
+  }
+
+/* try to make the Browse Search tile centered(ish) 
+#lr-browse-screen {
+	padding-left: 5em;
+	margin-top: -1.5em;
+  }*/
