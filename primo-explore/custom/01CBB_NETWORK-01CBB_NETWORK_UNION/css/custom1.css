@@ -158,8 +158,15 @@ md-input-container:after {
 		  background-color: #466176; 
   }
 
-/* try to make the Browse Search tile centered(ish) 
-#lr-browse-screen {
-	padding-left: 5em;
-	margin-top: -1.5em;
-  }*/
+/* LOCAL BANNER - turn on in case of emergency */
+/*
+body::before {
+	content: "For the most comprehensive search, please choose your local library from the menu below.";
+	display: inline-block;
+	background: #beffff;
+	text-align: center;
+	width: 100%;
+	font-weight: bold;
+	} 
+	*/
+	/* END local banner */

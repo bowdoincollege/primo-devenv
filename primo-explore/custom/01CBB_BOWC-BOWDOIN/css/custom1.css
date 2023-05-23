@@ -1812,6 +1812,11 @@ dd {
   padding-bottom: .75em;
 }
 
+/* make APPLY FILTER visible */
+.multiselect-submit .multiselect-submit-inner .md-button.md-primary {
+  color: #FFFFFF;
+}
+
 /* LOCAL BANNER - turn on in case of emergency */
 /*
 body::before {
