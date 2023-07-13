@@ -12,6 +12,29 @@
     
     "use strict";
     'use strict';
+
+    /* ******** Enhance No Results tile - BEGIN ************ */
+    app.controller('prmNoSearchResultAfterController', [function() {
+      var vm = this;
+    
+      this.$onInit = function(){
+        {
+          vm.getSearchTerm = getSearchTerm;
+          vm.pciSetting = vm.parentCtrl.searchStateService.searchObject.pcAvailability || '';
+          function getSearchTerm() {
+            return vm.parentCtrl.term;
+          }
+        }
+      };
+    }]);
+    
+      // this writes the No Results card; changing it is annoying to do since it's writing all the HTML on one line
+      app.component('prmNoSearchResultAfter',{
+        bindings: {parentCtrl: '<'},
+        controller: 'prmNoSearchResultAfterController',
+        template: '<md-card class="default-card zero-margin _md md-primoExplore-theme"><md-card-title><md-card-title-text><span translate="" class="md-headline ng-scope">No records found</span></md-card-title-text></md-card-title><md-card-content><p>There are no results matching your search: <blockquote><i>{{$ctrl.getSearchTerm()}}</i>.</blockquote>.</p><p>What next?</p><ul><li>If you are re looking for a specific item, you can <a href="https://library.bowdoin.edu/services/interlibrary-loan-and-document-delivery.shtml">request it through Interlibrary Loan and Document Delivery</a></li><li>If your search is a little more general, you can try the search again using some of the suggestions below.</li><li>Try your search on <a href="https://mainecat.maine.edu/">MaineCat</a> or <a href="https://bowdoin.libguides.com/worldcat">WorldCat</a>.</li></ul><p><span translate="" class="bold-text ng-scope">Search suggestions:</span></p><ul><li translate="" class="ng-scope">Make sure that all words are spelled correctly.</li><li translate="" class="ng-scope">Try a different search scope. "Almost everything" is the broadest search.</li><li translate="" class="ng-scope">Try different search terms, including synonyms.</li><li translate="" class="ng-scope">Try more general search terms.</li><li translate="" class="ng-scope">Try fewer search terms.</li></ul></p></md-card-content></md-card>'
+      });
+  /* ******** Enhance No Results tile - END ************ */
     
     //Auto generated code by primo app store DO NOT DELETE!!! -START-
     /*
@@ -124,4 +147,5 @@
     app.requires.push('hathiTrustAvailability');
     
     //Auto generated code by primo app store DO NOT DELETE!!! -END-
-    })();
+
+})();

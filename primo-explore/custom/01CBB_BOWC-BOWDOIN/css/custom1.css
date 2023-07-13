@@ -1817,6 +1817,11 @@ dd {
   color: #FFFFFF;
 }
 
+/* hide the default no result card */
+prm-no-search-result > md-card {
+  display:none;
+}
+
 /* LOCAL BANNER - turn on in case of emergency */
 /*
 body::before {
