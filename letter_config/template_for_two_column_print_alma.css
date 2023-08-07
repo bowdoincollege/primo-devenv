@@ -1,8 +1,6 @@
 
 .row {
-	display: grid;
-       /* ~336px for 3.5 inches, 816px for 8.5 inches */
-	/*grid-template-columns: 333px 333px;*/
+       display: grid;
        grid-template-columns: 49% 49%;
        column-gap: 22px;
        margin-top: 17px;
