@@ -50,8 +50,8 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
                         <!-- spacing -->
                         <xsl:text> &#160; &#160; </xsl:text>
                         <xsl:text>Date received: </xsl:text> <br />
-                        <!-- ugly, but puts the date in the format we're used to -->
-                        <xsl:value-of select="concat(substring(notification_data/general_data/current_date,4,2), '/', substring(notification_data/general_data/current_date,1,2), '/', substring(notification_data/general_data/current_date,7,4))"/> <br />
+                        <!-- the date! -->
+                        <xsl:value-of select="notification_data/general_data/current_date"/> <br />
                         <br />     
 
                         <!-- title and author; character limits stored in recordTitle.xsl -->

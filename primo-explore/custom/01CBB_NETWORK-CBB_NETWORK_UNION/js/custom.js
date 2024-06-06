@@ -1,53 +1,9 @@
 (function(){
+
+var app = angular.module('viewCustom', ['angularLoad', 'externalSearch']);
+var LOCAL_VID = "01CBB_NETWORK-CBB_NETWORK_UNION";
 "use strict";
 'use strict';
-var app = angular.module('viewCustom', ['angularLoad']);
-
-
-/* and can we make all of the menu links stay in this tab?! */
-
-
-  /* Same Tab Menu Links start  */
-  angular
-    .module('sameTabMenuLinks', [])
-    .component('sameTabMenuLinks', {
-      bindings: {parentCtrl: '<'},
-      controller: function controller($document, $scope) {
-        this.$onInit = function() {
-          /*Must wait for menu items to appear*/
-          console.log("Hi there I got called.");
-          var elCheck = setInterval(updateLinks, 1000);
-          function updateLinks() {
-            /* Checks for menu links, sets all target attributes to '_self'*/
-            if( $document[0].querySelectorAll("div.top-nav-bar-links > div").length>0 ){
-              var menuItems=$document[0].querySelectorAll("div.top-nav-bar-links > div")
-              for (var i = 0; i < menuItems.length; i++) {
-                var mItem = menuItems[i];
-                var anchor = mItem.querySelector("div > a");
-                anchor.target="_self"
-              }
-              clearInterval(elCheck);
-            }
-          }
-          var linkCheck = setInterval(updateHiddenLinks, 1000);
-          function updateHiddenLinks() {
-            /* Checks for menu links, sets all target attributes to '_self'*/
-            if( $document[0].querySelectorAll("div.custom-links-container > div").length>0 ){
-              var menuItems=$document[0].querySelectorAll("div.custom-links-container > div")
-              for (var i = 0; i < menuItems.length; i++) {
-                var mItem = menuItems[i];
-                var anchor = mItem.querySelector("div > a");
-                anchor.target="_self"
-              }
-              clearInterval(linkCheck);
-            }
-          }
-        }
-      }
-    })
-  /* End Same Tab Menu Links */
-
-
 
 /* adding a cool new card to the browse page */
 
@@ -110,5 +66,65 @@ app.controller('prmBrowseSearchAfterController', function() {
         };
     };
 });
+
+/**   Begin externalSearch   **/
+/* from https://knowledge.exlibrisgroup.com/Primo/Community_Knowledge/How_to_-_Add_links_to_additional_search_platforms_in_Primo_Brief_Results */
+
+app.component('prmFacetExactAfter', {
+  bindings: { parentCtrl: '<' },
+  template: '<external-search></external-search>'
+});
+
+angular.module('externalSearch', []).value('searchTargets', []).directive('externalSearch', function () {
+  return {
+    require: '^^prmFacet',
+    restrict: 'E',
+    templateUrl: '/discovery/custom/' + LOCAL_VID + '/html/externalSearch.html',
+    controller: ['$scope', '$location', 'searchTargets', function ($scope, $location, searchTargets) {
+      $scope.name = $scope.$ctrl.parentCtrl.facetGroup.name;
+      $scope.targets = searchTargets;
+      var query = $location.search().query;
+      var filter = $location.search().pfilter;
+      $scope.queries = Array.isArray(query) ? query : query ? [query] : false;
+      $scope.filters = Array.isArray(filter) ? filter : filter ? [filter] : false;
+    }],
+    link: function link(scope, element, attrs, prmFacetCtrl) {
+      var facetTitle = 'Other Search';
+      var found = false;
+      for (var facet in prmFacetCtrl.facets) {
+        if (prmFacetCtrl.facets[facet].name === facetTitle) {
+          found = true;
+        }
+      }
+      if (!found) {
+        prmFacetCtrl.facets.unshift({
+          name: facetTitle,
+          displayedType: 'exact',
+          limitCount: 0,
+          facetGroupCollapsed: false,
+          values: []
+        });
+      }
+    }
+  };
+});
+
+app.value('searchTargets', [{
+  "name": "MaineCat",
+  "url": "https://mainecat.maine.edu/search/?searchtype=X&SORT=D&searcharg=",
+  "img": "/discovery/custom/" + LOCAL_VID + "/img/maine_state_library.png",
+  "img_2": "/discovery/custom/" + LOCAL_VID + "/img/logo_placeholder.png",
+  "alt": "Search the Maine State Library's catalog",
+  mapping: function mapping(queries, filters) {
+    try {
+      return queries.map(function (part) {
+      return part.replace(/,OR/, ' OR').replace(/,AND/, ' AND').split(",").slice(2) || "";
+        }).join(' ').replace(/ AND$/, '');
+      } catch (e) {
+    return '';
+    }
+  }
+}]);
+/* end externalSearch */
 
 })();

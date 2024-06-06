@@ -1,0 +1,25 @@
+.row {
+                display: grid;
+                grid-template-columns: 48% 48%;
+                column-gap: 27px;
+}
+
+.letter {
+
+                border: none;
+                padding: 3%;
+                word-break: break-word;
+
+}
+
+@media print {
+
+                .row {
+
+                                break-inside: avoid;
+
+                }
+
+}
+
+ 

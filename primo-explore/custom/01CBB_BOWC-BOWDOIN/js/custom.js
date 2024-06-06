@@ -2,14 +2,9 @@
     "use strict";
     'use strict';
     
-    var app = angular.module('viewCustom', ['angularLoad']);
-    
-    "use strict";
-    'use strict';
-    
-    "use strict";
-    'use strict';
-    
+    // 'hathiTrustAvailablity' is from Orbis Cascade
+    var app = angular.module('viewCustom', ['angularLoad', 'hathiTrustAvailability'/*, 'externalSearch'*/]);
+    var LOCAL_VID = "01CBB_BOWC-BOWDOIN";
     "use strict";
     'use strict';
 
@@ -29,123 +24,355 @@
     }]);
     
       // this writes the No Results card; changing it is annoying to do since it's writing all the HTML on one line
+      // TODO: redo this so it's more like the CBB Browse Card
       app.component('prmNoSearchResultAfter',{
         bindings: {parentCtrl: '<'},
         controller: 'prmNoSearchResultAfterController',
-        template: '<md-card class="default-card zero-margin _md md-primoExplore-theme"><md-card-title><md-card-title-text><span translate="" class="md-headline ng-scope">No records found</span></md-card-title-text></md-card-title><md-card-content><p>There are no results matching your search: <blockquote><i>{{$ctrl.getSearchTerm()}}</i>.</blockquote>.</p><p>What next?</p><ul><li>If you are re looking for a specific item, you can <a href="https://library.bowdoin.edu/services/interlibrary-loan-and-document-delivery.shtml">request it through Interlibrary Loan and Document Delivery</a></li><li>If your search is a little more general, you can try the search again using some of the suggestions below.</li><li>Try your search on <a href="https://mainecat.maine.edu/">MaineCat</a> or <a href="https://bowdoin.libguides.com/worldcat">WorldCat</a>.</li></ul><p><span translate="" class="bold-text ng-scope">Search suggestions:</span></p><ul><li translate="" class="ng-scope">Make sure that all words are spelled correctly.</li><li translate="" class="ng-scope">Try a different search scope. "Almost everything" is the broadest search.</li><li translate="" class="ng-scope">Try different search terms, including synonyms.</li><li translate="" class="ng-scope">Try more general search terms.</li><li translate="" class="ng-scope">Try fewer search terms.</li></ul></p></md-card-content></md-card>'
+        template: '<md-card class="default-card zero-margin _md md-primoExplore-theme"><md-card-title><md-card-title-text><span translate="" class="md-headline ng-scope">No records found</span></md-card-title-text></md-card-title><md-card-content><p><strong>There are no results matching your search:</strong> <blockquote><i>{{$ctrl.getSearchTerm()}}</i>.</blockquote></p><p><span translate="" class="bold-text ng-scope">Search suggestions:</span><ul><li translate="" class="ng-scope">Make sure that all words are spelled correctly.</li><li translate="" class="ng-scope">Try a different search scope. "Almost everything" is the broadest search.</li><li translate="" class="ng-scope">Try different search terms, including synonyms.</li><li translate="" class="ng-scope">Try more general search terms.</li><li translate="" class="ng-scope">Try fewer search terms.</li></ul></p><p> If you are looking for a specific item, you can <a href="https://library.bowdoin.edu/services/interlibrary-loan-and-document-delivery.shtml">request it through Interlibrary Loan and Document Delivery</a></p><p>If you are stuck, <a href="https://bowdoin.libanswers.com/">ask a librarian</a>.</p></md-card-content></md-card>'
       });
-  /* ******** Enhance No Results tile - END ************ */
+     /* ******** Enhance No Results tile - END ************ */
     
-    //Auto generated code by primo app store DO NOT DELETE!!! -START-
-    /*
-        hookName is a place holder with should hold the hook name not including "prm" at the beginning and in upper camel case
-        e.g: for hook prmSearchBarAfter (in html prm-search-bar-after) it should be given "SearchBarAfter"
-     */
-    app.controller('SearchResultAvailabilityLineAfterController', [function () {
-      var vm = this;
-    }]);
-    
-    app.component('prmSearchResultAvailabilityLineAfter', {
-      bindings: { parentCtrl: '<' },
-      controller: 'SearchResultAvailabilityLineAfterController',
-      template: '\n    <hathi-trust-availability-studio parent-ctrl="$ctrl.parentCtrl"></hathi-trust-availability-studio>\n'
-    
-    });
-    
-    //Auto generated code by primo app store DO NOT DELETE!!! -END-
-    
-    //Auto generated code by primo app store DO NOT DELETE!!! -START-
-    angular.module('hathiTrustAvailability', []).value('hathiTrustIconPath', 'custom/CENTRAL_PACKAGE/img/hathitrust.svg').constant('hathiTrustBaseUrl', "https://catalog.hathitrust.org/api/volumes/brief/json/").config(['$sceDelegateProvider', 'hathiTrustBaseUrl', function ($sceDelegateProvider, hathiTrustBaseUrl) {
+
+    /* ********* HATHI TRUST CODE FROM ORBIS CASCADE (and Bates) - START ******* */
+
+  //* Begin Hathi Trust Availability *//
+  //* Adapted from UMNLibraries primo-explore-hathitrust-availability *//
+  //* https://github.com/UMNLibraries/primo-explore-hathitrust-availability *//
+
+  /* search title: Culture and human behavior by Sanford Winston */
+  
+  angular
+  .module('hathiTrustAvailability', [])
+  .constant(
+    'hathiTrustBaseUrl',
+    'https://catalog.hathitrust.org/api/volumes/brief/json/'
+  )
+  .config([
+    '$sceDelegateProvider',
+    'hathiTrustBaseUrl',
+    function ($sceDelegateProvider, hathiTrustBaseUrl) {
       var urlWhitelist = $sceDelegateProvider.resourceUrlWhitelist();
       urlWhitelist.push(hathiTrustBaseUrl + '**');
       $sceDelegateProvider.resourceUrlWhitelist(urlWhitelist);
-    }]).factory('hathiTrust', ['$http', '$q', function ($http, $q) {
+    },
+  ])
+  .factory('hathiTrust', [
+    '$http',
+    '$q',
+    'hathiTrustBaseUrl',
+    function ($http, $q, hathiTrustBaseUrl) {
       var svc = {};
-      var hathiTrustBaseUrl = "https://catalog.hathitrust.org/api/volumes/brief/json/";
-    
+      var lookup = function (ids) {
+        if (ids.length) {
+          var hathiTrustLookupUrl = hathiTrustBaseUrl + ids.join('|');
+          return $http
+                  .jsonp(hathiTrustLookupUrl, {
+                      cache: true,
+                      jsonpCallbackParam: 'callback',
+                  })
+                  .then(function (resp) {
+                      return resp.data;
+                  });
+        } else {
+          return $q.resolve(null);
+        }
+      };
+
+      // find a HT record URL for a given list of identifiers (regardless of copyright status)
+      svc.findRecord = function (ids) {
+        return lookup(ids)
+          .then(function (bibData) {
+            for (var i = 0; i < ids.length; i++) {
+              var recordId = Object.keys(bibData[ids[i]].records)[0];
+              if (recordId) {
+                return $q.resolve(bibData[ids[i]].records[recordId].recordURL);
+              }
+            }
+            return $q.resolve(null);
+          })
+          .catch(function (e) {
+            console.error(e);
+          });
+      };
+
+      // find a public-domain HT record URL for a given list of identifiers
       svc.findFullViewRecord = function (ids) {
-        var deferred = $q.defer();
-    
-        var handleResponse = function handleResponse(resp) {
-          var data = resp.data;
+        var handleResponse = function (bibData) {
           var fullTextUrl = null;
           for (var i = 0; !fullTextUrl && i < ids.length; i++) {
-            var result = data[ids[i]];
+            var result = bibData[ids[i]];
             for (var j = 0; j < result.items.length; j++) {
               var item = result.items[j];
-              if (item.usRightsString.toLowerCase() === "full view") {
+              if (item.usRightsString.toLowerCase() === 'full view') {
                 fullTextUrl = result.records[item.fromRecord].recordURL;
                 break;
               }
             }
           }
-          deferred.resolve(fullTextUrl);
+          return $q.resolve(fullTextUrl);
         };
-    
-        if (ids.length) {
-          var hathiTrustLookupUrl = hathiTrustBaseUrl + ids.join('|');
-          $http.jsonp(hathiTrustLookupUrl, { cache: true, jsonpCallbackParam: 'callback' }).then(handleResponse).catch(function (e) {
-            console.log(e);
+        return lookup(ids)
+          .then(handleResponse)
+          .catch(function (e) {
+            console.error(e);
           });
-        } else {
-          deferred.resolve(null);
-        }
-    
-        return deferred.promise;
       };
-    
+
       return svc;
-    }]).controller('hathiTrustAvailabilityStudioController', ['hathiTrust', 'hathiTrustIconPath', function (hathiTrust, hathiTrustIconPath) {
+    },
+  ])
+  .component('hathiTrustAvailability', {
+    require: {
+      prmSearchResultAvailabilityLine: '^prmSearchResultAvailabilityLine',
+    },
+    bindings: {
+      entityId: '@',
+      ignoreCopyright: '<',
+      hideIfJournal: '<',
+      hideOnline: '<',
+      msg: '@?',
+      institutionId: '@'
+    },
+    controller: function (hathiTrust, hathiTrustAvailabilityOptions) {
       var self = this;
-      self.hathiTrustIconPath = hathiTrustIconPath;
-    
       self.$onInit = function () {
-        setDefaults();
-        if (!(isOnline() && self.hideOnline)) {
-          updateHathiTrustAvailability();
+
+        // copy options from local package or central package defaults
+        self.msg = hathiTrustAvailabilityOptions.msg;
+        self.hideOnline = hathiTrustAvailabilityOptions.hideOnline;
+        self.hideIfJournal = hathiTrustAvailabilityOptions.hideIfJournal;
+        self.ignoreCopyright = hathiTrustAvailabilityOptions.ignoreCopyright;
+        self.entityId = hathiTrustAvailabilityOptions.entityId;
+        self.excludeNotLocal = hathiTrustAvailabilityOptions.excludeNotLocal;
+
+        if (!self.msg) self.msg = 'Full Text Available at HathiTrust';
+
+        // prevent appearance/request iff 'hide-online'
+        if (self.hideOnline && isOnline()) {
+          return;
+        }
+
+        // prevent appearance/request iff 'hide-if-journal'
+        if (self.hideIfJournal && isJournal()) {
+          return;
+        }
+
+        // prevent appearance iff no holding in this library
+        if (self.excludeNotLocal && !isLocal()) {
+          return;
+        }
+
+        // prevent appearance/request if item is unavailable
+        if (self.ignoreCopyright && !isAvailable()) {
+            //allow links for locally unavailable items that are in the public domain
+            self.ignoreCopyright = false;
+        }
+
+        // look for full text at HathiTrust
+        updateHathiTrustAvailability();
+      };
+
+      var isJournal = function () {
+        if (angular.isDefined(self.prmSearchResultAvailabilityLine.result.pnx.addata.format)) {
+          var format = self.prmSearchResultAvailabilityLine.result.pnx.addata.format[0];
+          return !(format.toLowerCase().indexOf('journal') == -1); // format.includes("Journal")
+        }
+        else {
+          return false;
         }
       };
-    
-      var setDefaults = function setDefaults() {
-        if (!self.msg) self.msg = 'Full Text Available at HathiTrust';
+
+      var isAvailable = function isAvailable() {
+        var available = self.prmSearchResultAvailabilityLine.result.delivery.availability[0];
+        return (available.toLowerCase().indexOf('unavailable') == -1);
       };
-    
-      var isOnline = function isOnline() {
-        return self.prmSearchResultAvailabilityLine.result.delivery.GetIt1.some(function (g) {
-          return g.links.some(function (l) {
-            return l.isLinktoOnline;
+
+      var isLocal = function () {
+        var availablelocally = false;
+        /* If ebook is available set availablelocally to true */
+        if (self.prmSearchResultAvailabilityLine.result.delivery.availability[0] == 'not_restricted') {
+            availablelocally = true;
+        }
+        /* If ebook is available by link-in-record set availablelocally to true */
+        else if (self.prmSearchResultAvailabilityLine.result.delivery.availability[0] == 'fulltext_linktorsrc') {
+            availablelocally = true;
+        }
+        /* If print book is available set availablelocally to true */
+        else if (self.prmSearchResultAvailabilityLine.result.delivery.availability[0] == 'available_in_library') {
+            availablelocally = true;
+        }
+        /* If print book is owned but unavailable set availablelocally to true */
+        else if (self.prmSearchResultAvailabilityLine.result.delivery.availability == 'unavailable') {
+            availablelocally = true;
+        }
+        return availablelocally;
+      }
+
+      var isOnline = function () {
+        var delivery =
+          self.prmSearchResultAvailabilityLine.result.delivery || [];
+        if (!delivery.GetIt1)
+          return delivery.deliveryCategory.indexOf('Alma-E') !== -1;
+        return self.prmSearchResultAvailabilityLine.result.delivery.GetIt1.some(
+          function (g) {
+            return g.links.some(function (l) {
+              return l.isLinktoOnline;
+            });
+          }
+        );
+      };
+
+      var formatLink = function (link) {
+        return self.entityId ? link + '?signon=swle:' + self.entityId : link;
+      };
+
+      // Rewrote logic to filter on presence of (ocolc) prefix PO 20220825
+      var isOclcNum = function (value) {
+        const oclcre = /^(\(ocolc\))?\d+$/i;
+        var res = false;
+        var getmatch = value.match(oclcre);
+        if (getmatch) {
+          if (getmatch[1]) {
+            res = true;
+          }
+        }
+        return res;
+      };
+
+      var updateHathiTrustAvailability = function () {
+        var hathiTrustIds = (
+          self.prmSearchResultAvailabilityLine.result.pnx.addata.oclcid || []
+        )
+          .filter(isOclcNum)
+          .map(function (id) {
+            return 'oclc:' + id.toLowerCase().replace('(ocolc)', '');
           });
+        hathiTrust[self.ignoreCopyright ? 'findRecord' : 'findFullViewRecord'](
+          hathiTrustIds
+        ).then(function (res) {
+          if (res) self.fullTextLink = formatLink(res);
         });
       };
-    
-      var updateHathiTrustAvailability = function updateHathiTrustAvailability() {
-        var hathiTrustIds = (self.prmSearchResultAvailabilityLine.result.pnx.addata.oclcid || []).map(function (id) {
-          return "oclc:" + id;
+    },
+    template:
+      '<span ng-if="$ctrl.fullTextLink" class="umnHathiTrustLink">\
+        <md-icon alt="HathiTrust Logo">\
+          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">  <image id="image0" width="16" height="16" x="0" y="0"\
+          xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJN\
+          AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACNFBMVEXuegXvegTsewTveArw\
+          eQjuegftegfweQXsegXweQbtegnsegvxeQbvegbuegbvegbveQbtegfuegbvegXveQbvegbsfAzt\
+          plfnsmfpq1/wplPuegXvqFrrq1znr2Ptok/sewvueQfuegbtegbrgRfxyJPlsXDmlTznnk/rn03q\
+          pVnomkjnlkDnsGnvwobsfhPveQXteQrutHDqpF3qnUnpjS/prmDweQXsewjvrWHsjy7pnkvqqGDv\
+          t3PregvqhB3uuXjusmzpp13qlz3pfxTskC3uegjsjyvogBfpmkHpqF/us2rttXLrgRjrgBjttXDo\
+          gx/vtGznjzPtfhHqjCfuewfrjCnwfxLpjC7wtnDogBvssmjpfhLtegjtnEjrtnTmjC/utGrsew7s\
+          o0zpghnohB/roUrrfRHtsmnlkTbrvH3tnEXtegXvegTveQfqhyHvuXjrrGTpewrsrmXqfRHogRjt\
+          q2Dqewvqql/wu3vqhyDueQnwegXuegfweQPtegntnUvnt3fvxI7tfhTrfA/vzJvmtXLunEbtegrw\
+          egTregzskjbsxI/ouoPsqFzniyrz2K3vyZnokDLpewvtnkv30J/w17XsvYXjgBbohR7nplnso1L0\
+          1Kf40Z/um0LvegXngBnsy5juyJXvsGftrGTnhB/opVHoew7qhB7rzJnnmErkkz3splbqlT3smT3t\
+          tXPqqV7pjzHvunjrfQ7vewPsfA7uoU3uqlruoEzsfQ/vegf///9WgM4fAAAAFHRSTlOLi4uLi4uL\
+          i4uLi4uLi4tRUVFRUYI6/KEAAAABYktHRLvUtndMAAAAB3RJTUUH4AkNDgYNB5/9vwAAAQpJREFU\
+          GNNjYGBkYmZhZWNn5ODk4ubh5WMQERUTl5CUEpWWkZWTV1BUYlBWUVVT19BUUtbS1tHV0zdgMDQy\
+          NjE1MzRXsrC0sraxtWOwd3B0cnZxlXZz9/D08vbxZfDzDwgMCg4JdQsLj4iMio5hiI2LT0hMSk5J\
+          TUvPyMzKzmHIzcsvKCwqLiktK6+orKquYZCuratvaGxqbmlta+8QNRBl6JQ26Oru6e3rnzBx0uQ8\
+          aVGGvJopU6dNn1E8c9bsOXPniYoySM+PXbBw0eIlS5fl1C+PFRFlEBUVXbFy1eo1a9fliQDZYIHY\
+          9fEbNm7avEUUJiC6ddv2HTt3mSuBBfhBQEBQSEgYzOIHAHtfTe/vX0uvAAAAJXRFWHRkYXRlOmNy\
+          ZWF0ZQAyMDE2LTA5LTEzVDE0OjA2OjEzLTA1OjAwNMgVqAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAx\
+          Ni0wOS0xM1QxNDowNjoxMy0wNTowMEWVrRQAAAAASUVORK5CYII=" />\
+          </svg> \
+        </md-icon>\
+        <a target="_blank" ng-href="{{$ctrl.fullTextLink}}">\
+        {{ ::$ctrl.msg }}\
+          <prm-icon external-link="" icon-type="svg" svg-icon-set="primo-ui" icon-definition="open-in-new"></prm-icon>\
+        </a>\
+      </span>',
+  })
+  // Set default values for options
+  .value('hathiTrustAvailabilityOptions', {
+    msg: 'Full Text Available at HathiTrust',
+    hideOnline: true,
+    hideIfJournal: true,
+    ignoreCopyright: false,
+    entityId: '',
+    excludeNotLocal: false
+  });
+
+app.component('prmSearchResultAvailabilityLineAfter', { template: '<hathi-trust-availability></hathi-trust-availability>' });
+
+/* End HathiTrust Availability */
+
+/**   Begin externalSearch   **/
+/*
+app.component('prmFacetExactAfter', {
+  bindings: { parentCtrl: '<' },
+  template: '<external-search></external-search>'
+});
+
+angular.module('externalSearch', []).value('searchTargets', []).directive('externalSearch', function () {
+  return {
+    require: '^^prmFacet',
+    restrict: 'E',
+    templateUrl: '/discovery/custom/' + LOCAL_VID + '/html/externalSearch.html',
+    controller: ['$scope', '$location', 'searchTargets', function ($scope, $location, searchTargets) {
+      $scope.name = $scope.$ctrl.parentCtrl.facetGroup.name;
+      $scope.targets = searchTargets;
+      var query = $location.search().query;
+      var filter = $location.search().pfilter;
+      $scope.queries = Array.isArray(query) ? query : query ? [query] : false;
+      $scope.filters = Array.isArray(filter) ? filter : filter ? [filter] : false;
+    }],
+    link: function link(scope, element, attrs, prmFacetCtrl) {
+      var facetTitle = 'Other Search';
+      var found = false;
+      for (var facet in prmFacetCtrl.facets) {
+        if (prmFacetCtrl.facets[facet].name === facetTitle) {
+          found = true;
+        }
+      }
+      if (!found) {
+        prmFacetCtrl.facets.unshift({
+          name: facetTitle,
+          displayedType: 'exact',
+          limitCount: 0,
+          facetGroupCollapsed: false,
+          values: []
         });
-        hathiTrust.findFullViewRecord(hathiTrustIds).then(function (res) {
-          self.fullTextLink = res;
-        });
-      };
-    }]).component('hathiTrustAvailabilityStudio', {
-      require: {
-        prmSearchResultAvailabilityLine: '^prmSearchResultAvailabilityLine'
-      },
-      bindings: {
-        hideOnline: '<',
-        msg: '@?'
-      },
-      controller: 'hathiTrustAvailabilityStudioController',
-      template: '<span ng-if="$ctrl.fullTextLink" class="umnHathiTrustLink">\
-                    <md-icon md-svg-src="{{$ctrl.hathiTrustIconPath}}" alt="HathiTrust Logo"></md-icon>\
-                    <a target="_blank" ng-href="{{$ctrl.fullTextLink}}">\
-                    {{ ::$ctrl.msg }}\
-                      <prm-icon external-link="" icon-type="svg" svg-icon-set="primo-ui" icon-definition="open-in-new"></prm-icon>\
-                    </a>\
-                  </span>'
-    });
-    
-    app.requires.push('hathiTrustAvailability');
-    
-    //Auto generated code by primo app store DO NOT DELETE!!! -END-
+      }
+    }
+  };
+});
+
+app.value('searchTargets', [{
+  "name": "MaineCat",
+  "url": "https://mainecat.maine.edu/search/?searchtype=X&SORT=D&searcharg=",
+  "img": "/discovery/custom/" + LOCAL_VID + "/img/maine_state_library.png",
+  "img_2": "/discovery/custom/" + LOCAL_VID + "/img/logo_placeholder.png",
+  "alt": "Search the Maine State Library's catalog",
+  mapping: function mapping(queries, filters) {
+    try {
+      return queries.map(function (part) {
+      return part.replace(/,OR/, ' OR').replace(/,AND/, ' AND').split(",").slice(2) || "";
+        }).join(' ').replace(/ AND$/, '');
+      } catch (e) {
+    return '';
+    }
+  }
+} /*, {
+    "name": "WorldCat",
+    "url": "https://bowdoincollege.on.worldcat.org/search?queryString=",
+    "img": "/discovery/custom/" + LOCAL_VID + "/img/wc-pinwheel.png",
+    "img_2": "/discovery/custom/" + LOCAL_VID + "/img/logo_placeholder.png",
+    "alt": "WorldCat",
+    mapping: function mapping(queries, filters) {
+      try {
+        return queries.map(function (part) {
+          return part.split(",")[2] || "";
+        }).join(' ');
+      } catch (e) {
+        return '';
+      }
+    }
+}
+]); 
+end externalSearch */
 
 })();
