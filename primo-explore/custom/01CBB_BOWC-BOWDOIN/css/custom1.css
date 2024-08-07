@@ -903,45 +903,46 @@ prm-alma-viewit-items .item-status {
   display: block;
 }
 
-/* button for archives 
-div.result-item-text:nth-child(3) > div:nth-child(5) > prm-search-result-availability-line:nth-child(1) > div:nth-child(2)
-{
-padding: 3px 20px 2px 5px;
-border-radius: 4px;
-font-weight: 600;
-background-color: #FAFAFA;
-margin-top: 5px;
-margin-top: 10px;
-display: inline-block;
-border: 2px solid #1d5c57;
-background-repeat: no-repeat;
-background-position: bottom 4px left 6px;
- }*/
 
- /*  --- these are for colorizing access directives, probably safe to delete soon
-span.availability-status.not_restricted { 
-  color: #1d5c57;
-  background-color: #86bbdc;
- }
- 
-span.availability-status.check_holdings
- {
 
-  color: #1d5c57;
-  background-color: #c4c92f;
+/* no extra "compass" button on mobile  */
+@media (max-width: 970px) {
+  .primo-search-logo {
+      display: none;
+  }
+}
 
-   }
+/* make "compass" button by search box look nice  */
+@media (min-width: 970px) {
+	.search-wrapper {
+        margin-left: 25%;
+    }
+    .search-wrapper .flex-lg-10 {
+        display: none;
+    }
+    .search-wrapper .flex-lg-65 {
+        max-width: 80%;
+    }
+    .primo-search-logo {
+        display: block;
+        width: 25%;
+        text-align: right;
+        top: 35px;  /* adjust vertical alignment */
+		    padding-right: 30px;
+        position: absolute;
+    }
+    .primo-search-logo img {
+        width: 90%;
+        max-width: 240px;
+    }
+}
 
-span.availability-status.fulltext_linktorsrc {
-  color: #1d5c57;
-  background-color: #db86dc;
-} */
+/* make the bowdoin | library spaced a little more nicely */
+#banner img {
+  padding-top: 10px;
+  margin-left: 5px;
+}
 
-/*
-prm-service-links div a {
-  color: #1d5c57;
-  background-color: #ecce79;
-} */
 
 /* LOCAL BANNER - turn on in case of emergency */
 
