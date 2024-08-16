@@ -33,11 +33,7 @@
       });
      /* ******** Enhance No Results tile - END ************ */
     
-// Add Primo Search logo to the left of search box  courtesy of Yongli Zhou
-app.component('prmSearchBarAfter', {
-  bindings: {parentCtrl: '<'},
-  template: '<div class="primo-search-logo"><a href="https://bowdoin.primo.exlibrisgroup.com/discovery/search?vid='+ LOCAL_VID_URL +'"><img ng-src="/discovery/custom/'+ LOCAL_VID + '/img/compass.png" src="/discovery/custom/'+ LOCAL_VID + '/img/compass.png" alt="Compass Search"></a></div>' 
-});
+
 
     /* ********* HATHI TRUST CODE FROM ORBIS CASCADE (and Bates) - START ******* */
 
