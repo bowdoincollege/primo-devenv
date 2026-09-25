@@ -13,7 +13,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "babelify": "8.0.0",
     "bluebird": "3.5.4",
-    "browser-sync": "2.9.9",
+    "browser-sync": "2.29.3",
     "browserify": "16.2.3",
     "camel-case": "^3.0.0",
     "colors": "^1.3.3",
